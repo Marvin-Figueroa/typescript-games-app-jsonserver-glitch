@@ -1,0 +1,48 @@
+@import '../../variables';
+
+.pagination {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  border-radius: 6px;
+  align-self: flex-end;
+  flex-wrap: wrap;
+
+  .page-item {
+    border-radius: 6px;
+  }
+
+  .page-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    cursor: pointer;
+    background-color: $secondary-color;
+    outline: none;
+    border: none;
+    font-weight: bold;
+    font-size: 1.6rem;
+    border-radius: 6px;
+    height: 4rem;
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    &.current-page {
+      background-color: $accent-color;
+    }
+
+    &:hover {
+      background-color: $accent-color;
+    }
+
+    &.dots {
+      pointer-events: none;
+    }
+  }
+}

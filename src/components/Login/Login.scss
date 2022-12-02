@@ -1,0 +1,79 @@
+@import '../../variables';
+
+.form {
+  padding: 2.5rem;
+  border-radius: 10px;
+  // width: 45rem;
+  width: 90%;
+  max-width: 45rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  // margin: 6vh auto;
+
+  .form-login-error {
+    color: crimson;
+    font-weight: bold;
+    text-align: center;
+  }
+
+  .form__title {
+    color: $secondary-color;
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  .form__label {
+    font-weight: bold;
+  }
+
+  .form-control {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .form__input {
+    padding: 1rem;
+    outline: none;
+    border-radius: 6px;
+    border: 1px solid grey;
+    font-family: inherit;
+    font-size: 1.6rem;
+
+    &:focus {
+      box-shadow: $accent-color 0px 0px 0px 3px;
+    }
+  }
+
+  .form__input-error {
+    color: crimson;
+  }
+
+  .form__submit {
+    background-color: $accent-color;
+    color: white;
+    padding: 1.2rem;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-weight: bold;
+
+    &:focus {
+      box-shadow: $secondary-color 0px 0px 0px 3px;
+    }
+
+    &:hover {
+      cursor: pointer;
+      opacity: 0.9;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+}

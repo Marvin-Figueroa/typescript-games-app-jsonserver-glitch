@@ -1,0 +1,13 @@
+@import '../../variables';
+
+.about-text {
+  line-height: 1.4;
+  color: white;
+  font-size: 1.8rem;
+
+  &::first-letter {
+    color: $accent-color;
+    font-weight: bold;
+    font-size: 3rem;
+  }
+}

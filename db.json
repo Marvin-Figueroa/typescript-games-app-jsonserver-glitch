@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "id": 1,
+      "comment": "Test comment on game #416",
+      "gameId": 416,
+      "user": 1
+    },
+    {
+      "id": 2,
+      "comment": "Test comment on game #4062",
+      "gameId": 4062,
+      "user": 2
+    },
+    {
+      "id": 3,
+      "comment": "Test comment on game #2",
+      "gameId": 2,
+      "user": 3
+    },
+    {
+      "id": 4,
+      "comment": "Test comment on game #278",
+      "gameId": 278,
+      "user": 3
+    },
+    {
+      "id": 5,
+      "comment": "Test comment on game #5286",
+      "gameId": 5286,
+      "user": 3
+    },
+    {
+      "id": 6,
+      "comment": "Test comment on game #41",
+      "gameId": 41,
+      "user": 4
+    },
+    {
+      "id": 7,
+      "comment": "Test comment on game #29028",
+      "gameId": 29028,
+      "user": 4
+    },
+    {
+      "id": 8,
+      "comment": "Test comment on game #4332",
+      "gameId": 4332,
+      "user": 1
+    },
+    {
+      "id": 9,
+      "comment": "Test comment on game #422",
+      "gameId": 422,
+      "user": 4
+    },
+    {
+      "id": 10,
+      "comment": "Test comment on game #422",
+      "gameId": 422,
+      "user": 2
+    },
+    {
+      "id": 11,
+      "comment": "Test comment on game #422",
+      "gameId": 422,
+      "user": 3
+    },
+    {
+      "id": 12,
+      "comment": "Test comment on game #3439",
+      "gameId": 3439,
+      "user": 4
+    },
+    {
+      "id": 13,
+      "comment": "Test comment on game #41494",
+      "gameId": 41494,
+      "user": 1
+    },
+    {
+      "id": 14,
+      "comment": "Test comment on game #41494",
+      "gameId": 41494,
+      "user": 2
+    },
+    {
+      "id": 15,
+      "comment": "Test comment on game #41494",
+      "gameId": 41494,
+      "user": 4
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "Anakin",
+      "lastName": "Skywalker",
+      "username": "Anakin@Skywalker",
+      "password": "12345"
+    },
+    {
+      "id": 2,
+      "name": "Padme",
+      "lastName": "Amidala",
+      "username": "Padme@Amidala",
+      "password": "54321"
+    },
+    {
+      "id": 3,
+      "name": "Obi-Wan",
+      "lastName": "Kenobi",
+      "username": "Obi-Wan@Kenobi",
+      "password": "1122334455"
+    },
+    {
+      "id": 4,
+      "name": "Marvin",
+      "lastName": "Figueroa",
+      "username": "Marvin@Figueroa",
+      "password": "12345678"
+    }
+  ]
+}

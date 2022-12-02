@@ -1,0 +1,65 @@
+@import '../../variables';
+
+.comments {
+  padding: 4rem;
+}
+
+.comments_label {
+  font-weight: bold;
+  font-size: 1.8rem;
+}
+
+.comments_label-add-comment {
+  margin: 1rem 0;
+  color: $secondary-color;
+}
+
+.comments__new-comment {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin: 2rem auto;
+}
+
+.new-comment__submit {
+  padding: 1rem;
+  font-family: inherit;
+  align-self: flex-start;
+  cursor: pointer;
+  outline: none;
+  border-radius: 6px;
+}
+
+.new-comment__text {
+  resize: none;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 1.6rem;
+  padding: 1rem;
+  outline: none;
+}
+
+.new-comment__submit {
+  color: white;
+  border: none;
+  font-weight: bold;
+  background-color: $accent-color;
+}
+
+.new-comment__submit:disabled {
+  cursor: not-allowed;
+  background-color: darkgrey;
+  color: white;
+  opacity: 0.4;
+}
+
+.new-comment__submit:focus,
+.new-comment__text:focus,
+.new-comment-author:focus {
+  box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+}
+
+.new-comment-author {
+  font-weight: bold;
+  color: $accent-color;
+}

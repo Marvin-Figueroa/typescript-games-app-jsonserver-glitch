@@ -1,0 +1,37 @@
+@import "../../variables";
+
+.game {
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+
+.game__image {
+  width: 100%;
+}
+
+.game__info {
+  padding: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  border-bottom: 1px solid lightgrey;
+}
+
+.game__title {
+  color: $secondary-color;
+  font-size: 3.5rem;
+}
+
+.game__rating {
+  font-weight: bold;
+  color: $accent-color;
+}
+
+.game__description {
+  line-height: 1.4;
+  letter-spacing: 2px;
+}
