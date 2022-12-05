@@ -1,21 +1,29 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import './Pagination.scss';
 import { usePagination, DOTS } from '../../hooks/usePagination';
 
-const Pagination = ({
+interface IProps {
+  totalItems: number;
+  pageSize: number;
+  onPageChange: (pageNumber: number) => void;
+  siblingCount: number;
+  currentPage: number;
+}
+const Pagination: FC<IProps> = ({
   totalItems,
   pageSize,
   onPageChange,
   siblingCount = 1,
   currentPage,
 }) => {
-  const paginationRange = usePagination({
-    currentPage,
-    totalItems,
-    siblingCount,
-    pageSize,
-  });
+  const paginationRange =
+    usePagination({
+      currentPage,
+      totalItems,
+      siblingCount,
+      pageSize,
+    }) || [];
 
   // If there are less than 2 times in pagination range we shall not render the component
   if (currentPage === 0 || paginationRange.length < 2) {
@@ -30,7 +38,7 @@ const Pagination = ({
     onPageChange(currentPage - 1);
   }
 
-  let lastPage = paginationRange[paginationRange.length - 1];
+  const lastPage = paginationRange[paginationRange.length - 1];
 
   return (
     <nav aria-label="Page navigation">
@@ -46,7 +54,8 @@ const Pagination = ({
           </button>
         </li>
         {paginationRange.map((pageNum, index) => {
-          if (pageNum === DOTS) {
+          // When the element in pageNum is the DOTS ('...')
+          if (typeof pageNum === 'string') {
             return (
               <li key={pageNum + index} className="page-item">
                 <button className="page-btn dots">&#8230;</button>
