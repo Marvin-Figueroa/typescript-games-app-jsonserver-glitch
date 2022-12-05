@@ -1,41 +1,38 @@
-// import React, { useRef } from 'react';
+import React, { FC } from 'react';
 import './Navbar.scss';
 import { SiNintendogamecube } from 'react-icons/si';
 import { useAuth } from '../../hooks/useAuth';
+import { NavLink } from 'react-router-dom';
 
-const Navbar = ({ user, onLogOut, currentPage, onLinkClick }) => {
+const Navbar: FC = () => {
   console.log('Navbar was rendered!!!');
-  const { logOut } = useAuth();
+  const { user, logOut } = useAuth();
 
   return (
     <nav className="main-nav">
-      <div onClick={() => onLinkClick('games')} className="main-nav__logo">
+      <NavLink to={'/'} className={'main-nav__logo'}>
         <SiNintendogamecube /> <span>LOGO</span>
-      </div>
+      </NavLink>
       <ul className="main-nav__list">
         <li className="main-nav__item">
-          <button
-            onClick={() => onLinkClick('games')}
-            className={
-              currentPage === 'games'
-                ? 'main-nav__link current'
-                : 'main-nav__link'
+          <NavLink
+            to={'/'}
+            className={({ isActive }) =>
+              isActive ? 'main-nav__link active' : 'main-nav__link'
             }
           >
             Games
-          </button>
+          </NavLink>
         </li>
         <li className="main-nav__item">
-          <button
-            onClick={() => onLinkClick('about')}
-            className={
-              currentPage === 'about'
-                ? 'main-nav__link current'
-                : 'main-nav__link'
+          <NavLink
+            to={'/about'}
+            className={({ isActive }) =>
+              isActive ? 'main-nav__link active' : 'main-nav__link'
             }
           >
             About
-          </button>
+          </NavLink>
         </li>
         <li className="main-nav__item">
           {user ? (
@@ -44,7 +41,6 @@ const Navbar = ({ user, onLogOut, currentPage, onLinkClick }) => {
               <button
                 className="main-nav__link"
                 onClick={() => {
-                  onLogOut();
                   logOut();
                 }}
               >
@@ -52,16 +48,14 @@ const Navbar = ({ user, onLogOut, currentPage, onLinkClick }) => {
               </button>
             </>
           ) : (
-            <button
-              className={
-                currentPage === 'login'
-                  ? 'main-nav__link current'
-                  : 'main-nav__link'
+            <NavLink
+              to={'/login'}
+              className={({ isActive }) =>
+                isActive ? 'main-nav__link active' : 'main-nav__link'
               }
-              onClick={() => onLinkClick('login')}
             >
               Log In
-            </button>
+            </NavLink>
           )}
         </li>
       </ul>
