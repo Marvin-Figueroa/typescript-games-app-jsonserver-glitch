@@ -1,7 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
+import { IFormattedComment } from '../../models/formattedComment';
+
 import './Comment.scss';
 
-const Comment = ({ comment }) => {
+interface IProps {
+  comment: IFormattedComment;
+}
+
+const Comment: FC<IProps> = ({ comment }) => {
   return (
     <div className="comment">
       <span className="comment__user">{comment.user}</span>
