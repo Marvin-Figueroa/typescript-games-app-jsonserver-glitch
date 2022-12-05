@@ -32,21 +32,28 @@
   gap: 1rem;
 }
 
+// TODO: al titulo del juego ya no se le aplican los 3 puntos cuando sobrepasa una linea
 .game-card__title {
-  button {
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    text-overflow: ellipsis;
-    border: none;
-    font-family: inherit;
-    background-color: transparent;
-    font-weight: bold;
-    font-size: 2rem;
-    width: 100%;
-    overflow: hidden;
-    outline: none;
-    white-space: nowrap;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  border: none;
+  font-family: inherit;
+  background-color: transparent;
+  font-weight: bold;
+  font-size: 2rem;
+  width: 100%;
+  overflow: hidden;
+  outline: none;
+  white-space: nowrap;
+
+  a {
+    &:link,
+    &:visited {
+      color: $primary-color;
+      text-decoration: none;
+    }
 
     &:active,
     &:hover {
