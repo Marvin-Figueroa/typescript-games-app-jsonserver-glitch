@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { FC } from 'react';
 import './Footer.scss';
 
-const Footer = () => {
+const Footer: FC = () => {
   return (
-    <footer className='footer'>
-      <small className='footer__copyright'>
+    <footer className="footer">
+      <small className="footer__copyright">
         Created by
-        <span className='footer__author'> Marvin Figueroa</span> &copy; 2022
+        <span className="footer__author"> Marvin Figueroa</span> &copy; 2022
       </small>
     </footer>
   );
