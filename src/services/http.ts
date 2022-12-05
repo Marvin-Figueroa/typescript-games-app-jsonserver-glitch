@@ -1,62 +1,41 @@
-export default class HttpClient {
-  static #instance;
+async function http<T>(path: string, config: RequestInit): Promise<T> {
+  const request = new Request(path, config);
+  const response = await fetch(request);
 
-  constructor() {
-    if (HttpClient.#instance) {
-      return HttpClient.#instance;
-    }
-
-    HttpClient.#instance = this;
+  if (!response.ok) {
+    throw new Error('Could not get the data. ' + response.statusText);
   }
 
-  async #fetchJSON(endpoint, options = {}) {
-    const res = await fetch(endpoint, { ...options });
+  return response.json().catch((error) => {
+    throw new Error(
+      'An error ocurred while trying to get the response. ' + error.toString()
+    );
+  });
+}
 
-    if (!res.ok) {
-      throw new Error(res.statusText);
-    }
+export async function get<T>(path: string, config?: RequestInit): Promise<T> {
+  const init = { method: 'get', ...config };
+  return http<T>(path, init);
+}
 
-    if (options.parseResponse && res.status !== 204) {
-      return res.json();
-    }
+export async function post<T, U>(
+  path: string,
+  body: T,
+  config?: RequestInit
+): Promise<U> {
+  const init = {
+    method: 'post',
+    body: JSON.stringify(body),
+    ...config,
+  };
+  return http<U>(path, init);
+}
 
-    return res;
-  }
-
-  get(endpoint, options = {}) {
-    return this.#fetchJSON(endpoint, {
-      parseResponse: true,
-      ...options,
-      method: 'GET',
-    });
-  }
-
-  post(endpoint, body, options = {}) {
-    return this.#fetchJSON(endpoint, {
-      ...options,
-      body: JSON.stringify(body),
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }
-
-  delete(endpoint, options = {}) {
-    return this.#fetchJSON(endpoint, {
-      ...options,
-      method: 'DELETE',
-    });
-  }
-
-  patch(endpoint, body, options = {}) {
-    return this.#fetchJSON(endpoint, {
-      ...options,
-      body: JSON.stringify(body),
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  }
+export async function put<T, U>(
+  path: string,
+  body: T,
+  config?: RequestInit
+): Promise<U> {
+  const init = { method: 'put', body: JSON.stringify(body), ...config };
+  return http<U>(path, init);
 }
