@@ -1,9 +1,9 @@
-import HttpClient from './http';
+import { IUser } from '../models/user';
+import { IUserCredentials } from '../models/userCredentials';
+import { get } from './http';
 
-const http = new HttpClient();
-
-async function login(credentials) {
-  const user = await http.get(
+async function login(credentials: IUserCredentials) {
+  const user = await get<IUser[]>(
     process.env.REACT_APP_GLITCH_BASE_URL +
       `/users?username=${credentials.username}`
   );
