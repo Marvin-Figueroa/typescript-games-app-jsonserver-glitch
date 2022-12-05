@@ -1,8 +1,13 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { AiFillStar } from 'react-icons/ai';
 import './GameRating.scss';
 
-const Rating = ({ rating = 0, maxRating = 5 }) => {
+interface Props {
+  rating: number;
+  maxRating: number;
+}
+
+const Rating: FC<Props> = ({ rating = 0, maxRating = 5 }) => {
   return (
     <div className="rating">
       <AiFillStar />
