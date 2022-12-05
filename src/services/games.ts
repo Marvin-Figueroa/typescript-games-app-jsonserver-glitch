@@ -1,13 +1,10 @@
-import HttpClient from './http';
+import { IAPIResponse } from '../models/apiResponse';
+import { IGameDetail } from '../models/gameDetail';
+import { get } from './http';
 
-const http = new HttpClient();
-
-const apiUrl = process.env.REACT_APP_API_BASE_URL;
-const apiKey = process.env.REACT_APP_API_KEY;
-
-export async function getGameDetails(gameId) {
-  const gameDetails = await http.get(
-    apiUrl + `/games/${gameId}?key=663ba57cd49444e18a052cdc458cc5e6`
+export async function getGameDetails(gameId: string) {
+  const gameDetails = await get<IGameDetail>(
+    `${process.env.REACT_APP_API_BASE_URL}/games/${gameId}?key=${process.env.REACT_APP_API_KEY}`
   );
 
   return gameDetails;
@@ -18,13 +15,16 @@ export async function getPaginatedGames(
   pageSize = 8,
   searchQuery = ''
 ) {
-  const gamesResult = await http.get(
-    apiUrl +
-      `/games?page=${pageNumber}&page_size=${pageSize}&key=${apiKey}${
-        searchQuery.trim() !== ''
-          ? '&search_precise=true&search=' + searchQuery
-          : ''
-      }`
+  const gamesResult = await get<IAPIResponse>(
+    `${
+      process.env.REACT_APP_API_BASE_URL
+    }/games?page=${pageNumber}&page_size=${pageSize}&key=${
+      process.env.REACT_APP_API_KEY
+    }${
+      searchQuery.trim() !== ''
+        ? '&search_precise=true&search=' + searchQuery
+        : ''
+    }`
   );
 
   return gamesResult;
