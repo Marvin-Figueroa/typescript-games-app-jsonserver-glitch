@@ -2,15 +2,20 @@ import { useMemo } from 'react';
 
 export const DOTS = '...';
 
-function range(start, end) {
+function range(start: number, end: number) {
   return new Array(end - start + 1).fill(0).map((_, index) => start + index);
 }
 
 export const usePagination = ({
-  totalItems,
+  totalItems = 0,
   pageSize,
   siblingCount = 1,
   currentPage,
+}: {
+  totalItems: number;
+  pageSize: number;
+  siblingCount: number;
+  currentPage: number;
 }) => {
   const paginationRange = useMemo(() => {
     const totalPages = Math.ceil(totalItems / pageSize);
@@ -49,8 +54,8 @@ export const usePagination = ({
     	Case 2: No left dots to show, but rights dots to be shown
     */
     if (!shouldShowLeftDots && shouldShowRightDots) {
-      let leftItemCount = 3 + 2 * siblingCount;
-      let leftRange = range(1, leftItemCount);
+      const leftItemCount = 3 + 2 * siblingCount;
+      const leftRange = range(1, leftItemCount);
       return [...leftRange, DOTS, totalPages];
     }
 
@@ -58,8 +63,8 @@ export const usePagination = ({
     	Case 3: No right dots to show, but left dots to be shown
     */
     if (shouldShowLeftDots && !shouldShowRightDots) {
-      let rightItemCount = 3 + 2 * siblingCount;
-      let rightRange = range(totalPages - rightItemCount + 1, totalPages);
+      const rightItemCount = 3 + 2 * siblingCount;
+      const rightRange = range(totalPages - rightItemCount + 1, totalPages);
       return [firstPageIndex, DOTS, ...rightRange];
     }
 
@@ -67,7 +72,7 @@ export const usePagination = ({
     	Case 4: Both left and right dots to be shown
     */
     if (shouldShowLeftDots && shouldShowRightDots) {
-      let middleRange = range(leftSiblingIndex, rightSiblingIndex);
+      const middleRange = range(leftSiblingIndex, rightSiblingIndex);
       return [firstPageIndex, DOTS, ...middleRange, DOTS, lastPageIndex];
     }
   }, [totalItems, pageSize, siblingCount, currentPage]);
