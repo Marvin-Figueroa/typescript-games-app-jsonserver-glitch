@@ -1,9 +1,8 @@
-import HttpClient from './http';
-
-const http = new HttpClient();
+import { IUser } from '../models/user';
+import { get } from './http';
 
 export async function getUsers() {
-  const allUsers = await http.get(
+  const allUsers = await get<IUser[]>(
     process.env.REACT_APP_GLITCH_BASE_URL + '/users'
   );
 
