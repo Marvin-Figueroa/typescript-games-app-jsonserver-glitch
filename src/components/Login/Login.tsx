@@ -1,75 +1,47 @@
-import React, { useState } from 'react';
+import React, { FC, ChangeEvent, useState, FormEvent } from 'react';
 import { useAuth } from '../../hooks/useAuth';
 
 import './Login.scss';
+import { IUserCredentials } from '../../models/userCredentials';
 
-const Login = ({ onLogin }) => {
+import { useLocation, useNavigate } from 'react-router-dom';
+
+const Login: FC = () => {
   console.log('Login was rendered!!!');
-  const { logIn } = useAuth();
+  const { user, logIn } = useAuth();
 
-  const [userData, setUserData] = useState({ username: '', password: '' });
-  const [isSigningIn, setIsSigningIn] = useState(false);
-  const [signInSuccess, setSignInSuccess] = useState(true);
+  const [userData, setUserData] = useState<IUserCredentials>({
+    username: '',
+    password: '',
+  });
+  const [isSigningIn, setIsSigningIn] = useState<boolean>(false);
+  const [signInSuccess, setSignInSuccess] = useState<boolean>(true);
 
-  function handleLogin(e) {
+  const { state } = useLocation();
+  const navigate = useNavigate();
+
+  function handleLogin(e: FormEvent) {
     e.preventDefault();
     setIsSigningIn(true);
     logIn(userData)
       .then((currUser) => {
         if (currUser) {
-          onLogin(currUser);
           setSignInSuccess(true);
+          navigate(state?.location?.pathname ?? '/');
         } else {
           setSignInSuccess(false);
         }
       })
       .catch((error) => console.log('Could not log in: ', error))
       .finally(() => setIsSigningIn(false));
-    // const errors = validateFormFields(user);
-
-    // if (Object.keys(errors).length > 0) {
-    //   setFormErrors(errors);
-    //   return;
-    // }
-
-    // setHasSubmitted(true);
-    // onLogin(user);
   }
 
-  function handleChange(e) {
+  function handleChange(e: ChangeEvent<HTMLInputElement>) {
     setSignInSuccess(true);
     setUserData((prevUser) => {
       return { ...prevUser, [e.target.name]: e.target.value };
     });
   }
-
-  // function validateFormFields(user) {
-  //   const errors = {};
-
-  //   if (user.username.trim() === '') {
-  //     errors.username = 'Username is required';
-  //   } else if (
-  //     user.username.trim().length < 4 ||
-  //     user.username.trim().length > 20
-  //   ) {
-  //     errors.username = 'Username must be between 4 and 20 characters';
-  //   } else if (user.username.trim().includes(' ')) {
-  //     errors.username = 'Username cannot contain blank spaces';
-  //   }
-
-  //   if (user.password.trim() === '') {
-  //     errors.password = 'Password is required';
-  //   } else if (user.password.trim().includes(' ')) {
-  //     errors.password = 'Password cannot contain blank spaces';
-  //   } else if (
-  //     user.password.trim().length < 4 ||
-  //     user.password.trim().length > 20
-  //   ) {
-  //     errors.password = 'Password must be between 4 and 20 characters';
-  //   }
-
-  //   return errors;
-  // }
 
   return (
     <form onSubmit={handleLogin} className="form">
@@ -92,7 +64,6 @@ const Login = ({ onLogin }) => {
           maxLength={50}
           required
         />
-        {/* <p className='form__input-error'>{formErrors.username}</p> */}
       </div>
       <div className="form-control">
         <label className="form__label" htmlFor="password">
@@ -109,7 +80,6 @@ const Login = ({ onLogin }) => {
           maxLength={50}
           required
         />
-        {/* <p className='form__input-error'>{formErrors.password}</p> */}
       </div>
       <div className="form-control">
         {isSigningIn ? (
