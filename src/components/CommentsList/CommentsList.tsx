@@ -1,15 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { FormEvent, FC, useEffect, useState, ChangeEvent } from 'react';
 import Comment from '../Comment/Comment';
 import './CommentsList.scss';
 
 import { getCommentsByGame, createComment } from '../../services/comments';
 import { getUsers } from '../../services/users';
+import { IUser } from '../../models/user';
+import { ICommentFromAPI } from '../../models/commentFromAPI';
+import { IFormattedComment } from '../../models/formattedComment';
+import { useAuth } from '../../hooks/useAuth';
 
-const CommentsList = ({ gameId, user }) => {
-  const [comments, setComments] = useState([]);
-  const [formattedComments, setFormattedComments] = useState([]);
-  const [users, setUsers] = useState([]);
-  const [newCommentText, setNewCommentText] = useState('');
+interface IProps {
+  gameId: string;
+  // user: IUser | null;
+}
+
+const CommentsList: FC<IProps> = ({ gameId }) => {
+  const { user } = useAuth();
+
+  const [comments, setComments] = useState<ICommentFromAPI[]>([]);
+  const [formattedComments, setFormattedComments] = useState<
+    IFormattedComment[]
+  >([]);
+  const [users, setUsers] = useState<IUser[]>([]);
+  const [newCommentText, setNewCommentText] = useState<string>('');
 
   useEffect(() => {
     getCommentsByGame(gameId).then((commentsData) => setComments(commentsData));
@@ -38,7 +51,7 @@ const CommentsList = ({ gameId, user }) => {
 
   function populateCommentsWithUsername() {
     const populatedCommentsUser = comments?.map((comment) => {
-      const userObj = users.find((us) => us.id === comment.user);
+      const userObj = users.find((usr) => usr.id === comment.user);
       return {
         ...comment,
         user: `${userObj?.name} ${userObj?.lastName}`,
@@ -47,34 +60,39 @@ const CommentsList = ({ gameId, user }) => {
     setFormattedComments(populatedCommentsUser);
   }
 
-  function handleNewComment(e) {
+  function handleNewComment(e: ChangeEvent<HTMLTextAreaElement>) {
     setNewCommentText(e.target.value);
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: FormEvent) {
     e.preventDefault();
 
-    const newComment = {
-      comment: newCommentText,
-      gameId: gameId,
-      user: user.id,
-    };
+    if (user) {
+      const newComment = {
+        comment: newCommentText,
+        gameId: Number(gameId),
+        user: user.id,
+      };
 
-    createComment(newComment)
-      .then((response) => response.json())
-      .then((createdComment) => {
-        setFormattedComments((prevComments) => [
-          ...prevComments,
-          { ...createdComment, user: `${user.name} ${user.lastName}` },
-        ]);
+      // TODO: Handle posible errors when calling the API
+      createComment(newComment)
+        .then((createdComment) => {
+          setFormattedComments((prevComments) => [
+            ...prevComments,
+            { ...createdComment, user: `${user.name} ${user.lastName}` },
+          ]);
+        })
+        .catch((error) => console.log('An error ocurred: ', error));
+    }
 
-        setNewCommentText('');
-      });
+    setNewCommentText('');
   }
 
   return (
     <div className="comments">
-      <p className="comments_label">All comments ({comments?.length})</p>
+      <p className="comments_label">
+        All comments ({formattedComments?.length})
+      </p>
       {!user && (
         <p className="comments_label-add-comment">
           To add a comment you have to be logged in!
