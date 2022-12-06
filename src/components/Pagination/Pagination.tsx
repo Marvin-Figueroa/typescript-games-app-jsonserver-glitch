@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import './Pagination.scss';
-import { usePagination, DOTS } from '../../hooks/usePagination';
+import { usePagination } from '../../hooks/usePagination';
 
 interface IProps {
   totalItems: number;
