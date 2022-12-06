@@ -1,16 +1,22 @@
 import { useEffect, useState } from 'react';
+
 import { IUser } from '../models/user';
 import { IUserCredentials } from '../models/userCredentials';
+
 import loginService from '../services/login';
+
+import { useLocalStorage } from './useLocalStorage';
 
 export const useAuth = () => {
   const [user, setUser] = useState<IUser | null>(null);
+  const { storedValue, setValue, removeItem } = useLocalStorage<IUser | null>(
+    'user',
+    user
+  );
 
   useEffect(() => {
-    const userValue = window.localStorage.getItem('user');
-    const user = userValue ? JSON.parse(userValue) : null;
+    const user = storedValue;
     if (user) {
-      console.log('User was found in localStorage: ', user);
       setUser(user);
     }
   }, []);
@@ -20,16 +26,16 @@ export const useAuth = () => {
       const user = await loginService.login(credentials);
       if (user) {
         setUser(user);
-        window.localStorage.setItem('user', JSON.stringify(user));
+        setValue(user);
         return user;
       }
     } catch (error) {
-      console.log('An error ocurred while trying to log in!', error);
+      // console.log('An error ocurred while trying to log in!', error);
     }
   }
 
   function logOut() {
-    window.localStorage.removeItem('user');
+    removeItem('user');
     setUser(null);
   }
 
