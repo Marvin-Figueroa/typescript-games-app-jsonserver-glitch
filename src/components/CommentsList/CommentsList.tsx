@@ -11,7 +11,6 @@ import { useAuth } from '../../hooks/useAuth';
 
 interface IProps {
   gameId: string;
-  // user: IUser | null;
 }
 
 const CommentsList: FC<IProps> = ({ gameId }) => {
@@ -74,7 +73,6 @@ const CommentsList: FC<IProps> = ({ gameId }) => {
         user: user.id,
       };
 
-      // TODO: Handle posible errors when calling the API
       createComment(newComment)
         .then((createdComment) => {
           setFormattedComments((prevComments) => [
@@ -82,7 +80,9 @@ const CommentsList: FC<IProps> = ({ gameId }) => {
             { ...createdComment, user: `${user.name} ${user.lastName}` },
           ]);
         })
-        .catch((error) => console.log('An error ocurred: ', error));
+        .catch((error) => {
+          // console.log(error);
+        });
     }
 
     setNewCommentText('');
@@ -98,31 +98,30 @@ const CommentsList: FC<IProps> = ({ gameId }) => {
           To add a comment you have to be logged in!
         </p>
       )}
-      {user && (
-        <form
-          onSubmit={handleSubmit}
-          id="comments__new-comment"
-          className="comments__new-comment"
+
+      <form
+        onSubmit={handleSubmit}
+        id="comments__new-comment"
+        className="comments__new-comment"
+      >
+        <span className="new-comment-author">
+          {user?.name + ' ' + user?.lastName}
+        </span>
+        <textarea
+          value={newCommentText}
+          onChange={handleNewComment}
+          className="new-comment__text"
+          name="new-comment"
+          id="new-comment"
+          placeholder="Enter your comment..."
+        />
+        <button
+          className="new-comment__submit"
+          disabled={newCommentText.trim() === ''}
         >
-          <span className="new-comment-author">
-            {user.name + ' ' + user.lastName}
-          </span>
-          <textarea
-            value={newCommentText}
-            onChange={handleNewComment}
-            className="new-comment__text"
-            name="new-comment"
-            id="new-comment"
-            placeholder="Enter your comment..."
-          />
-          <button
-            className="new-comment__submit"
-            disabled={newCommentText.trim() === ''}
-          >
-            Add comment
-          </button>
-        </form>
-      )}
+          Add comment
+        </button>
+      </form>
 
       <div className="comments__container">
         {formattedComments?.map((comment) => (
