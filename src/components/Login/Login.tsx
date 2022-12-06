@@ -1,15 +1,16 @@
 import React, { FC, ChangeEvent, useState, FormEvent } from 'react';
-import { useAuth } from '../../hooks/useAuth';
 
 import './Login.scss';
 import { IUserCredentials } from '../../models/userCredentials';
 
 import { useLocation, useNavigate } from 'react-router-dom';
+import { IUser } from '../../models/user';
 
-const Login: FC = () => {
-  console.log('Login was rendered!!!');
-  const { user, logIn } = useAuth();
+interface IProps {
+  onLogIn: (credentials: IUserCredentials) => Promise<IUser | undefined>;
+}
 
+const Login: FC<IProps> = ({ onLogIn }) => {
   const [userData, setUserData] = useState<IUserCredentials>({
     username: '',
     password: '',
@@ -23,16 +24,19 @@ const Login: FC = () => {
   function handleLogin(e: FormEvent) {
     e.preventDefault();
     setIsSigningIn(true);
-    logIn(userData)
+    onLogIn(userData)
       .then((currUser) => {
         if (currUser) {
           setSignInSuccess(true);
+
           navigate(state?.location?.pathname ?? '/');
         } else {
           setSignInSuccess(false);
         }
       })
-      .catch((error) => console.log('Could not log in: ', error))
+      .catch((error) => {
+        // console.log('Could not log in: ', error);
+      })
       .finally(() => setIsSigningIn(false));
   }
 
