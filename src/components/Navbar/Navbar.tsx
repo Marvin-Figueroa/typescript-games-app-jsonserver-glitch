@@ -1,12 +1,17 @@
 import React, { FC } from 'react';
-import './Navbar.scss';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { SiNintendogamecube } from 'react-icons/si';
-import { useAuth } from '../../hooks/useAuth';
-import { NavLink } from 'react-router-dom';
+import './Navbar.scss';
 
-const Navbar: FC = () => {
-  console.log('Navbar was rendered!!!');
-  const { user, logOut } = useAuth();
+import { IUser } from '../../models/user';
+
+interface IProps {
+  user: IUser | null;
+  onLogOut: () => void;
+}
+
+const Navbar: FC<IProps> = ({ user, onLogOut }) => {
+  const navigate = useNavigate();
 
   return (
     <nav className="main-nav">
@@ -41,7 +46,8 @@ const Navbar: FC = () => {
               <button
                 className="main-nav__link"
                 onClick={() => {
-                  logOut();
+                  onLogOut();
+                  navigate('/', { replace: true });
                 }}
               >
                 Log Out
