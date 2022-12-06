@@ -1,19 +1,19 @@
 import { FC, useEffect, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import HashLoader from 'react-spinners/HashLoader';
 
 import './Home.scss';
 
 import GameCardsList from '../../components/GameCardsList/GameCardsList';
 import Pagination from '../../components/Pagination/Pagination';
 import SearchBar from '../../components/SearchBar/SearchBar';
-
-import { useSearchParams } from 'react-router-dom';
-import HashLoader from 'react-spinners/HashLoader';
+import { Error } from '../../components/Error/Error';
 
 import { getPaginatedGames } from '../../services/games';
 
 import { IGame } from '../../models/game';
+import NotFound from '../NotFound/NotFound';
 
-// FIXME: Al iniciar la app no recupera el usuario desde el localStorage y por tanto no detecta ningun usuario previamente logueado
 const Home: FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [gameSearch, setGameSearch] = useState<string>(
@@ -27,8 +27,6 @@ const Home: FC = () => {
     Number(searchParams.get('page')) || 1
   );
   const [error, setError] = useState<string | null>(null);
-
-  console.log('App was rendered!!!');
 
   useEffect(() => {
     setLoading(true);
@@ -47,6 +45,7 @@ const Home: FC = () => {
   const handlePageChange = (page: number) => {
     setLoading(true);
     setSearchParams({ search: gameSearch, page: page.toString() });
+
     getPaginatedGames(page, 8, searchParams.get('search') || '')
       .then((data) => {
         setGamesCount(data.count);
@@ -55,8 +54,7 @@ const Home: FC = () => {
       })
       .catch((error) => {
         setLoading(false);
-        setError('Error: Could not get the games data');
-        console.log(error);
+        setError('Error: Could not get the games data. ' + error?.message);
       });
     setCurrentPage(page);
   };
@@ -72,17 +70,20 @@ const Home: FC = () => {
       })
       .catch((error) => {
         setLoading(false);
-        setError('Error: Could not get the games data');
-        console.log(error);
+        setError('Error: Could not get the games data. ' + error.toString());
       });
     setCurrentPage(1);
   };
 
-  return (
-    <main id="main">
+  return !loading && currentPage > Math.ceil(gamesCount / 8) ? (
+    <NotFound />
+  ) : (
+    <main>
       <SearchBar onSubmitSearch={handleSearch} />
       {loading ? (
         <HashLoader color="#fb8500" />
+      ) : error ? (
+        <Error message={error} />
       ) : (
         <GameCardsList games={games} />
       )}
