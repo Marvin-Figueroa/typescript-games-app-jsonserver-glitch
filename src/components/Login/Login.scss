@@ -3,14 +3,12 @@
 .form {
   padding: 2.5rem;
   border-radius: 10px;
-  // width: 45rem;
   width: 90%;
   max-width: 45rem;
   background-color: white;
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  // margin: 6vh auto;
 
   .form-login-error {
     color: crimson;
