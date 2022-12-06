@@ -1,0 +1,18 @@
+@import '../../variables';
+
+.error-page {
+  margin: 0 auto;
+}
+
+.error-page__title {
+  font-size: 5rem;
+  font-weight: bold;
+  color: $accent-color;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.error-page__message {
+  font-size: 1.6rem;
+  color: white;
+}
