@@ -2,7 +2,7 @@ import './GameDetails.scss';
 
 import CommentsList from '../../components/CommentsList/CommentsList';
 import GameRating from '../../components/GameRating/GameRating';
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useReducer } from 'react';
 
 import { getGameDetails } from '../../services/games';
 
@@ -10,20 +10,27 @@ import HashLoader from 'react-spinners/HashLoader';
 import { IGameDetail } from '../../models/gameDetail';
 import { PlatformElement } from '../../models/gameDetail';
 
+import { initialState, gameReducer } from '../../utils/gameReducer';
+
 import { useParams } from 'react-router-dom';
 
 const GameDetails: FC = () => {
-  const [game, setGame] = useState<IGameDetail | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [{ isLoading, error, game }, dispatch] = useReducer(
+    gameReducer,
+    initialState
+  );
 
   const { id } = useParams();
 
   useEffect(() => {
-    setIsLoading(true);
-    getGameDetails(id || '').then((gameData: IGameDetail) => {
-      setGame(gameData);
-      setIsLoading(false);
-    });
+    dispatch({ type: 'FETCH_START' });
+    getGameDetails(id || '')
+      .then((gameData: IGameDetail) => {
+        dispatch({ type: 'FETCH_SUCCESS', payload: gameData });
+      })
+      .catch((error) => {
+        dispatch({ type: 'FETCH_ERROR', payload: error.toString() });
+      });
   }, []);
 
   if (isLoading) {
